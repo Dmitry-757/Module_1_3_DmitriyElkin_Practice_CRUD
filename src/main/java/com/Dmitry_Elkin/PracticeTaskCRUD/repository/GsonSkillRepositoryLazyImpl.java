@@ -2,15 +2,19 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.service.SkillService;
-
 import java.util.HashMap;
 import java.util.List;
 
-public class GsonSkillRepositoryImpl implements SkillRepository{
+public class GsonSkillRepositoryLazyImpl implements SkillRepository{
+
+    public HashMap<Long, Skill> getSkillSet() {
+        return skillSet;
+    }
+
     private final HashMap<Long, Skill> skillSet;
 
     //при старте считываем данные из бд в skillSet что бы в дальнейшем дергать данные из skillSet, а не обращаться к бд каждый раз
-    public GsonSkillRepositoryImpl() {
+    public GsonSkillRepositoryLazyImpl() {
         skillSet = SkillService.getItemsFromDB();
     }
 
@@ -32,6 +36,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository{
             Skill.setLastId(id);
         }
         skillSet.put(id, item);
+        SkillService.updateBD(skillSet);
         return true;
     }
 
