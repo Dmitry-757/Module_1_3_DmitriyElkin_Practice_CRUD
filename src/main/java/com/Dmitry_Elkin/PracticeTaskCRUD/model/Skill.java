@@ -9,14 +9,17 @@ public class Skill {
 
     private long id;
     private String Name;
+    private Status status;
 
     public Skill(long id, String name) {
         this.id = id;
         Name = name;
+        status = Status.ACTIVE;
     }
 
     public Skill(String name) {
         Name = name;
+        status = Status.ACTIVE;
     }
 
     public static long getLastId() {
@@ -41,6 +44,13 @@ public class Skill {
         this.id = lastId;
     }
 
+    public void setDeleted() {
+        status = Status.DELETED;
+    }
+
+    public void setUnDeleted() {
+        status = Status.ACTIVE;
+    }
 
     public String getName() {
         return Name;
@@ -51,12 +61,12 @@ public class Skill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
-        return id == skill.id && Name.equals(skill.Name);
+        return id == skill.id && Name.equals(skill.Name) && status == skill.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, Name);
+        return Objects.hash(id, Name, status);
     }
 
     public void setName(String name) {
@@ -68,6 +78,7 @@ public class Skill {
         return "Skill{" +
                 "id=" + id +
                 ", Name='" + Name + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

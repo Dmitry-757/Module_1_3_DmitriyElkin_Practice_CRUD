@@ -3,7 +3,6 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 import java.util.List;
 
 public class Developer {
-
     private static volatile long lastId;
 
     private long id;
