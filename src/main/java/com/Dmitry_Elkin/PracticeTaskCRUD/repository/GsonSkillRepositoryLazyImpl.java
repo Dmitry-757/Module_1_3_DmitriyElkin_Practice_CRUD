@@ -30,11 +30,8 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository{
 
     @Override
     public boolean addOrUpdate(Skill item) {
-        long id = item.getId();
-        if(id <= 0) { //add
-            id = Skill.getLastId()+1;
-            Skill.setLastId(id);
-            item.setId(id);
+        if(item.getId() <= 0) { //add
+            item.setNewId();
         }
         skillSet.put(item.getId(), item);
         SkillService.updateBD(skillSet);
