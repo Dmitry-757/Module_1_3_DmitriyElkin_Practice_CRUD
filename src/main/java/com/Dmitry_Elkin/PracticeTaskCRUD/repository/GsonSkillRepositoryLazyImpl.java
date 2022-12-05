@@ -34,8 +34,9 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository{
         if(id <= 0) { //add
             id = Skill.getLastId()+1;
             Skill.setLastId(id);
+            item.setId(id);
         }
-        skillSet.put(id, item);
+        skillSet.put(item.getId(), item);
         SkillService.updateBD(skillSet);
         return true;
     }

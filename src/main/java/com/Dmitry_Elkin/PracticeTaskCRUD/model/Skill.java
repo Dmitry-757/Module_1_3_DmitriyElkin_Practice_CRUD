@@ -11,6 +11,9 @@ public class Skill {
         Name = name;
     }
 
+    public Skill(String name) {
+        Name = name;
+    }
 
     public static long getLastId() {
         return lastId;
