@@ -6,10 +6,17 @@ public class Specialty {
 
     private long id;
     private String Name;
+    private Status status;
 
     public Specialty(long id, String name) {
         this.id = id;
         Name = name;
+        status = Status.ACTIVE;
+    }
+
+    public Specialty(String name) {
+        Name = name;
+        status = Status.ACTIVE;
     }
 
     public long getId() {

@@ -14,8 +14,8 @@ class GsonSkillRepositoryLazyImplTest {
 
     @Test
     void addOrUpdate() {
-        Skill skill1 = new Skill(1, "Linear algebra");
-        Skill skill2 = new Skill(2, "java core");
+        Skill skill1 = new Skill("Linear algebra");
+        Skill skill2 = new Skill("java core");
 
         GsonSkillRepositoryLazyImpl gsonSkillRepositoryLazy = new GsonSkillRepositoryLazyImpl();
         gsonSkillRepositoryLazy.addOrUpdate(skill1);
