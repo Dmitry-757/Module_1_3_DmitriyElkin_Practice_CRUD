@@ -15,5 +15,5 @@ public interface SpecialtyRepository extends GenericRepository<Specialty, Long> 
     Specialty getById(Long id);
 
     @Override
-    boolean delete(Long id);
+    boolean delete(Specialty item);
 }

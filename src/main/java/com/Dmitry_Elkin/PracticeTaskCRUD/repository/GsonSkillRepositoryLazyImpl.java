@@ -39,10 +39,8 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository{
     }
 
     @Override
-    public boolean delete(Long id) {
-        if (skillSet.remove(id)!=null){
-            return true;
-        }
+    public boolean delete(Skill item) {
+        item.setDeleted();
         return false;
     }
 }

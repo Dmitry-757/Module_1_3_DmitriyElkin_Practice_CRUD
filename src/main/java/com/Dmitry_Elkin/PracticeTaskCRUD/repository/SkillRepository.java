@@ -15,5 +15,5 @@ public interface SkillRepository extends GenericRepository<Skill, Long>{
     Skill getById(Long id);
 
     @Override
-    boolean delete(Long id);
+    boolean delete(Skill item);
 }

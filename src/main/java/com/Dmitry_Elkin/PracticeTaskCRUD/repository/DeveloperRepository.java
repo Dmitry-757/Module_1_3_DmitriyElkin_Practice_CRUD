@@ -15,5 +15,5 @@ public interface DeveloperRepository extends GenericRepository<Developer, Long>{
     Developer getById(Long id);
 
     @Override
-    boolean delete(Long id);
+    boolean delete(Developer item);
 }

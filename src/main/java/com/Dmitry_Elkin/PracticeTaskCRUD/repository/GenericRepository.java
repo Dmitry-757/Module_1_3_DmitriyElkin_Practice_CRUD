@@ -6,5 +6,5 @@ public interface GenericRepository<T,ID> {
     boolean addOrUpdate(T item);
     List<T> getAll();
     T getById(ID id);
-    boolean delete(ID id);
+    boolean delete(T item);
 }

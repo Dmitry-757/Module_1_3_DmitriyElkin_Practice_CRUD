@@ -56,6 +56,10 @@ public class Skill {
         return Name;
     }
 
+    public void setName(String name) {
+        Name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,9 +73,6 @@ public class Skill {
         return Objects.hash(id, Name, status);
     }
 
-    public void setName(String name) {
-        Name = name;
-    }
 
     @Override
     public String toString() {
