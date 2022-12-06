@@ -23,8 +23,8 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
  * attempt to make single Repository-class instead of SkillRepository, SpecialtyRepository and DeveloperRepository ))
  * @param <T>
  */
-//public class GenericRepositoryMyImpl<T> implements SpecialtyRepository {
-public class GenericRepositoryMyImpl<T extends BaseModelsMethsI> implements GenericRepository<T, Long> {
+//public class MyGenericRepositoryImpl<T> implements SpecialtyRepository {
+public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements GenericRepository<T, Long> {
     final Class<T> typeParameterClass;
     private final String fileName;
     private final String tmpFileName;
@@ -35,7 +35,7 @@ public class GenericRepositoryMyImpl<T extends BaseModelsMethsI> implements Gene
 //            .setPrettyPrinting() //formats json-file to well done form
             .create();
 
-    public GenericRepositoryMyImpl(Class<T> typeParameterClass) {
+    public MyGenericRepositoryImpl(Class<T> typeParameterClass) {
         this.typeParameterClass = typeParameterClass;
         this.fileName = typeParameterClass.getSimpleName().toLowerCase() + ".json";
         this.tmpFileName = typeParameterClass.getSimpleName().toLowerCase() + ".tmp";

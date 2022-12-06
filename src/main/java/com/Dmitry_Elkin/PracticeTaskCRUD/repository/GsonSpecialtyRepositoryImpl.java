@@ -1,6 +1,5 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
-import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

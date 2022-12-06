@@ -34,8 +34,8 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
             .create();
 
     public GsonDeveloperRepositoryImpl() {
-        this.fileName = typeParameterClass.getName().toLowerCase() + ".json";
-        this.tmpFileName = typeParameterClass.getName().toLowerCase() + ".tmp";
+        this.fileName = typeParameterClass.getSimpleName().toLowerCase() + ".json";
+        this.tmpFileName = typeParameterClass.getSimpleName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
         this.tmpFile = Path.of(tmpFileName);
     }

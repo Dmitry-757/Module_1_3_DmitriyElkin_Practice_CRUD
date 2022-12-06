@@ -3,7 +3,8 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Skill {
+//implements BaseModelsMethsI - for my experiment by creating common repository
+public class Skill implements BaseModelsMethsI{
     private static volatile long lastId;
 
     private long id;
