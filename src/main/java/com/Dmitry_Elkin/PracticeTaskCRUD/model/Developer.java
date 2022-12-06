@@ -2,6 +2,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Developer {
     private static volatile long lastId;
@@ -44,6 +45,12 @@ public class Developer {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setNewId() {
+        AtomicLong l = new AtomicLong(lastId);
+        Developer.lastId = l.incrementAndGet();
+        this.id = lastId;
     }
 
     public String getFirstName() {

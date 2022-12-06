@@ -2,6 +2,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.myRepository.GsonSkillRepositoryLazyImpl;
 import org.junit.jupiter.api.Test;
 
 

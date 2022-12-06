@@ -1,6 +1,7 @@
-package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
+package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.repository.SkillRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
-public class GsonSkillRepositoryLazyImpl implements SkillRepository{
+public class GsonSkillRepositoryLazyImpl implements SkillRepository {
     public HashMap<Long, Skill> getSkillSet() {
         return skillSet;
     }
