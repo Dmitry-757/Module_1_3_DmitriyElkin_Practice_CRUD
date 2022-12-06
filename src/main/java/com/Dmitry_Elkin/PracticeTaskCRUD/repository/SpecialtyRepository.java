@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface SpecialtyRepository extends GenericRepository<Specialty, Long> {
     @Override
-    boolean addOrUpdate(Specialty item);
+    void addOrUpdate(Specialty item);
+
 
     @Override
     List<Specialty> getAll();
@@ -15,5 +16,5 @@ public interface SpecialtyRepository extends GenericRepository<Specialty, Long> 
     Specialty getById(Long id);
 
     @Override
-    boolean delete(Specialty item);
+    void delete(Specialty item);
 }

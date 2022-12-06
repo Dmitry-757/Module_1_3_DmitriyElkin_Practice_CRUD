@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+@Deprecated
 public class SkillService {
     private static final Path file = Paths.get("skillsHM.json");
     private static final Gson gson = new GsonBuilder()

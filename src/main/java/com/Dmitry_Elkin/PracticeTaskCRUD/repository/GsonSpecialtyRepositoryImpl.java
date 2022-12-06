@@ -1,9 +1,9 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,18 +16,9 @@ import java.util.Scanner;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class GsonSkillRepositoryImpl implements SkillRepository {
-//    private static final String fileName = "skills.json";
-//    private static final String tmpFileName = "skills.tmp";
-//    private static final Path file = Paths.get(fileName);
-//    private static final Path tmpFile = Path.of(tmpFileName);
-//
-//    private static final Gson gson = new GsonBuilder()
-////            .setPrettyPrinting() //formats json-file to well done form
-//            .create();
-
-    final Class<Skill> typeParameterClass = Skill.class;
-    //    private static final String fileName = "specialty.json";
+public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
+    final Class<Specialty> typeParameterClass = Specialty.class;
+//    private static final String fileName = "specialty.json";
     private final String fileName;
     private final String tmpFileName;
     private final Path file;
@@ -37,55 +28,54 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 //            .setPrettyPrinting() //formats json-file to well done form
             .create();
 
-    public GsonSkillRepositoryImpl() {
+    public GsonSpecialtyRepositoryImpl() {
         this.fileName = typeParameterClass.getName().toLowerCase() + ".json";
         this.tmpFileName = typeParameterClass.getName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
         this.tmpFile = Path.of(tmpFileName);
     }
 
-
     @Override
-    public List<Skill> getAll() {
-        List<Skill> skillList = new LinkedList<>();
+    public List<Specialty> getAll() {
+        List<Specialty> list = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
-                Skill skill = new Gson().fromJson(jsonStr, Skill.class);
-//                System.out.println(skill);
-                skillList.add(skill);
+                Specialty item = new Gson().fromJson(jsonStr, Specialty.class);
+                list.add(item);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return skillList;
+        return list;
     }
 
+
     @Override
-    public Skill getById(Long id) {
+    public Specialty getById(Long id) {
         if (!Files.exists(file)) {
-            System.out.println("The file 'skill.json' is absent!");
+            System.out.println("The db-file is absent!");
             return null;
         }
         String jsonStr;
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNext()) {
                 jsonStr = sc.nextLine();
-                Skill skill = new Gson().fromJson(jsonStr, Skill.class);
-                if (skill.getId() == id) {
-                    return skill;
+                Specialty item = new Gson().fromJson(jsonStr, Specialty.class);
+                if (item.getId() == id) {
+                    return item;
                 }
             }
         } catch (IOException e) {
-//            throw new RuntimeException(e);
             System.out.println("oops! some io exception was occurred "+e.getMessage());
+//            throw new RuntimeException(e);
         }
 
         return null;
     }
 
     @Override
-    public void addOrUpdate(Skill item) {
+    public void addOrUpdate(Specialty item) {
         //*** add ***
         if (item.getId() <= 0) {
             item.setNewId();
@@ -97,7 +87,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
 
-    public void add(Skill item){
+    public void add(Specialty item){
         try {
             if (Files.exists(file)) {
                 Files.write(file, List.of(gson.toJson(item)), StandardOpenOption.APPEND);
@@ -110,18 +100,18 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         }
     }
 
-    public void update(Skill item){
+    public void update(Specialty item){
         try(
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
                 BufferedWriter out = new BufferedWriter(new FileWriter(tmpFileName));
                 )
         {
             String jsonStr;
-            Skill skill;
+            Specialty updatingItem;
             while((jsonStr=in.readLine())!=null)  {
-                skill = new Gson().fromJson(jsonStr, Skill.class);
+                updatingItem = new Gson().fromJson(jsonStr, Specialty.class);
 
-                if (skill.getId() == item.getId()) {
+                if (updatingItem.getId() == item.getId()) {
                     //line = line.replace(stringToReplace, replaceWith);
                     jsonStr = gson.toJson(item);
                 }
@@ -148,14 +138,15 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     @Override
-    public void delete(Skill item) {
+    public void delete(Specialty item) {
         item.setDeleted();
         update(item);
     }
 
-    public void unDelete(Skill item) {
+    public boolean unDelete(Specialty item) {
         item.setUnDeleted();
         update(item);
+        return true;
     }
 
 }

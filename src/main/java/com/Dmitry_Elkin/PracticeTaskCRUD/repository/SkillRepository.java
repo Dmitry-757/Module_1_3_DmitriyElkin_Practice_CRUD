@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SkillRepository extends GenericRepository<Skill, Long>{
     @Override
-    boolean addOrUpdate(Skill item);
+    void addOrUpdate(Skill item);
 
     @Override
     List<Skill> getAll();
@@ -15,5 +15,5 @@ public interface SkillRepository extends GenericRepository<Skill, Long>{
     Skill getById(Long id);
 
     @Override
-    boolean delete(Skill item);
+    void delete(Skill item);
 }

@@ -3,7 +3,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Specialty {
+public class Specialty extends Model{
 
     private static volatile long lastId;
 

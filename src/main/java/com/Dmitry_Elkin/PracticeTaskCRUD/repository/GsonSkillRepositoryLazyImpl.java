@@ -1,7 +1,6 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
-import com.Dmitry_Elkin.PracticeTaskCRUD.service.SkillService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -68,19 +67,17 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository{
     }
 
     @Override
-    public boolean addOrUpdate(Skill item) {
+    public void addOrUpdate(Skill item) {
         if(item.getId() <= 0) { //add
             item.setNewId();
         }
         skillSet.put(item.getId(), item);
         updateBD(skillSet);
-        return true;
     }
 
     @Override
-    public boolean delete(Skill item) {
+    public void delete(Skill item) {
         item.setDeleted();
         addOrUpdate(item);
-        return true;
     }
 }

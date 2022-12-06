@@ -1,9 +1,9 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
-import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Model;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,28 +16,20 @@ import java.util.Scanner;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class GsonSkillRepositoryImpl implements SkillRepository {
-//    private static final String fileName = "skills.json";
-//    private static final String tmpFileName = "skills.tmp";
-//    private static final Path file = Paths.get(fileName);
-//    private static final Path tmpFile = Path.of(tmpFileName);
-//
-//    private static final Gson gson = new GsonBuilder()
-////            .setPrettyPrinting() //formats json-file to well done form
-//            .create();
-
-    final Class<Skill> typeParameterClass = Skill.class;
-    //    private static final String fileName = "specialty.json";
+//public class GenericRepositoryMyImpl<T> implements SpecialtyRepository {
+public class GenericRepositoryMyImpl<T extends Model> implements GenericRepositoryMy<T, Long> {
+    final Class<T> typeParameterClass;
     private final String fileName;
     private final String tmpFileName;
     private final Path file;
     private final Path tmpFile;
 
-    private final Gson gson = new GsonBuilder()
+    private static final Gson gson = new GsonBuilder()
 //            .setPrettyPrinting() //formats json-file to well done form
             .create();
 
-    public GsonSkillRepositoryImpl() {
+    public GenericRepositoryMyImpl(Class<T> typeParameterClass) {
+        this.typeParameterClass = typeParameterClass;
         this.fileName = typeParameterClass.getName().toLowerCase() + ".json";
         this.tmpFileName = typeParameterClass.getName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
@@ -46,38 +38,37 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
 
     @Override
-    public List<Skill> getAll() {
-        List<Skill> skillList = new LinkedList<>();
+    public List<T> getAll() {
+        List<T> list = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
-                Skill skill = new Gson().fromJson(jsonStr, Skill.class);
-//                System.out.println(skill);
-                skillList.add(skill);
+                T item = (T) new Gson().fromJson(jsonStr, typeParameterClass);
+                list.add(item);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return skillList;
+        return list;
     }
 
+
     @Override
-    public Skill getById(Long id) {
+    public T getById(Long id) {
         if (!Files.exists(file)) {
-            System.out.println("The file 'skill.json' is absent!");
+            System.out.println("The db-file is absent!");
             return null;
         }
         String jsonStr;
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNext()) {
                 jsonStr = sc.nextLine();
-                Skill skill = new Gson().fromJson(jsonStr, Skill.class);
-                if (skill.getId() == id) {
-                    return skill;
+                T item = new Gson().fromJson(jsonStr, typeParameterClass);
+                if (item.getId() == id) {
+                    return item;
                 }
             }
         } catch (IOException e) {
-//            throw new RuntimeException(e);
             System.out.println("oops! some io exception was occurred "+e.getMessage());
         }
 
@@ -85,7 +76,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     @Override
-    public void addOrUpdate(Skill item) {
+    public void addOrUpdate(T item) {
         //*** add ***
         if (item.getId() <= 0) {
             item.setNewId();
@@ -97,7 +88,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
 
-    public void add(Skill item){
+    public void add(T item){
         try {
             if (Files.exists(file)) {
                 Files.write(file, List.of(gson.toJson(item)), StandardOpenOption.APPEND);
@@ -105,24 +96,22 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
                 Files.write(file, List.of(gson.toJson(item)), StandardOpenOption.CREATE);
             }
         } catch (IOException e) {
-            //throw new RuntimeException(e);
             System.out.println("oops, IO exception was occurred (( " + e.getMessage());
         }
     }
 
-    public void update(Skill item){
+    public void update(T item){
         try(
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
                 BufferedWriter out = new BufferedWriter(new FileWriter(tmpFileName));
                 )
         {
             String jsonStr;
-            Skill skill;
+            Specialty updatingItem;
             while((jsonStr=in.readLine())!=null)  {
-                skill = new Gson().fromJson(jsonStr, Skill.class);
+                updatingItem = new Gson().fromJson(jsonStr, Specialty.class);
 
-                if (skill.getId() == item.getId()) {
-                    //line = line.replace(stringToReplace, replaceWith);
+                if (updatingItem.getId() == item.getId()) {
                     jsonStr = gson.toJson(item);
                 }
 
@@ -130,30 +119,27 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
                 out.newLine();
             }
         } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
             System.out.println("oops! File not found! "+e.getMessage());
         } catch (IOException e) {
             //throw new RuntimeException(e);
             System.out.println("oops! some IO exception : "+e.getMessage());
         }
         try {
-//            Files.copy(tmpFile, file, REPLACE_EXISTING);
-//            Files.delete(tmpFile);
             Files.move(tmpFile, file, REPLACE_EXISTING);
         } catch (IOException e) {
-//            throw new RuntimeException(e);
             System.out.println("oops! some IO exception : "+e.getMessage());
         }
 
     }
 
     @Override
-    public void delete(Skill item) {
+    public void delete(T item) {
         item.setDeleted();
         update(item);
     }
 
-    public void unDelete(Skill item) {
+    @Override
+    public void unDelete(T item) {
         item.setUnDeleted();
         update(item);
     }

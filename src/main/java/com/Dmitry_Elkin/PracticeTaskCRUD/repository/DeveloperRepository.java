@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DeveloperRepository extends GenericRepository<Developer, Long>{
     @Override
-    boolean addOrUpdate(Developer item);
+    void addOrUpdate(Developer item);
 
     @Override
     List<Developer> getAll();
@@ -15,5 +15,5 @@ public interface DeveloperRepository extends GenericRepository<Developer, Long>{
     Developer getById(Long id);
 
     @Override
-    boolean delete(Developer item);
+    void delete(Developer item);
 }
