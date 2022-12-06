@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Skill {
     private static volatile long lastId;
 
-
     private long id;
     private String Name;
     private Status status;

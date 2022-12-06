@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 class GsonSkillRepositoryImplTest {
     Path file = Paths.get("skills.json");
     Skill skill1 = new Skill("Linear algebra");

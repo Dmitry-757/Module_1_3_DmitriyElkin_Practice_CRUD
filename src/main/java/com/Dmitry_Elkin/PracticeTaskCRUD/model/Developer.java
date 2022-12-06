@@ -1,6 +1,7 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Developer {
     private static volatile long lastId;
@@ -19,6 +20,22 @@ public class Developer {
         this.skills = skills;
         this.specialty = specialty;
         this.status = status;
+    }
+
+    public Developer(String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.skills = skills;
+        this.specialty = specialty;
+        this.status = Status.ACTIVE;
+    }
+
+    public static long getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(long lastId) {
+        Developer.lastId = lastId;
     }
 
     public long getId() {
@@ -65,7 +82,35 @@ public class Developer {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setDeleted() {
+        status = Status.DELETED;
+    }
+
+    public void setUnDeleted() {
+        status = Status.ACTIVE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Developer developer = (Developer) o;
+        return id == developer.id && firstName.equals(developer.firstName) && lastName.equals(developer.lastName) && Objects.equals(skills, developer.skills) && specialty.equals(developer.specialty) && status == developer.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, skills, specialty, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Developer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", specialty=" + specialty.getName() +
+                ", status=" + status +
+                '}';
     }
 }
