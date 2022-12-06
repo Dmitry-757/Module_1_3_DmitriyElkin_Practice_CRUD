@@ -3,7 +3,8 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Specialty extends Model{
+//implements BaseModelsMethsI - for my experiment by creating common repository
+public class Specialty implements BaseModelsMethsI {
 
     private static volatile long lastId;
 
@@ -11,8 +12,8 @@ public class Specialty extends Model{
     private String Name;
     private Status status;
 
-    public Specialty(long id, String name) {
-        this.id = id;
+    public Specialty(long id2, String name) {
+        id = id2;
         Name = name;
         status = Status.ACTIVE;
     }

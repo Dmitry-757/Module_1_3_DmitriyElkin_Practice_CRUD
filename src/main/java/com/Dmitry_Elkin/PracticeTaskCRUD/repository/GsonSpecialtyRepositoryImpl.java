@@ -143,10 +143,10 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         update(item);
     }
 
-    public boolean unDelete(Specialty item) {
+    @Override
+    public void unDelete(Specialty item) {
         item.setUnDeleted();
         update(item);
-        return true;
     }
 
 }

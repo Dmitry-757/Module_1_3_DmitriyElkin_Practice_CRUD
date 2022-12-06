@@ -1,7 +1,8 @@
-package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
+package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
 
-import com.Dmitry_Elkin.PracticeTaskCRUD.model.Model;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
+import com.Dmitry_Elkin.PracticeTaskCRUD.repository.GenericRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,8 +17,14 @@ import java.util.Scanner;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+
+/**
+ *
+ * attempt to make single Repository-class instead of SkillRepository, SpecialtyRepository and DeveloperRepository ))
+ * @param <T>
+ */
 //public class GenericRepositoryMyImpl<T> implements SpecialtyRepository {
-public class GenericRepositoryMyImpl<T extends Model> implements GenericRepositoryMy<T, Long> {
+public class GenericRepositoryMyImpl<T extends BaseModelsMethsI> implements GenericRepository<T, Long> {
     final Class<T> typeParameterClass;
     private final String fileName;
     private final String tmpFileName;
@@ -30,8 +37,8 @@ public class GenericRepositoryMyImpl<T extends Model> implements GenericReposito
 
     public GenericRepositoryMyImpl(Class<T> typeParameterClass) {
         this.typeParameterClass = typeParameterClass;
-        this.fileName = typeParameterClass.getName().toLowerCase() + ".json";
-        this.tmpFileName = typeParameterClass.getName().toLowerCase() + ".tmp";
+        this.fileName = typeParameterClass.getSimpleName().toLowerCase() + ".json";
+        this.tmpFileName = typeParameterClass.getSimpleName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
         this.tmpFile = Path.of(tmpFileName);
     }
@@ -81,10 +88,10 @@ public class GenericRepositoryMyImpl<T extends Model> implements GenericReposito
         if (item.getId() <= 0) {
             item.setNewId();
             add(item);
+        }else {
+            //*** update ***
+            update(item);
         }
-
-        //*** update ***
-        update(item);
     }
 
 

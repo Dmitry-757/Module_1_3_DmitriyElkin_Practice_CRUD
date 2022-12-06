@@ -16,4 +16,7 @@ public interface DeveloperRepository extends GenericRepository<Developer, Long>{
 
     @Override
     void delete(Developer item);
+
+    @Override
+    void unDelete(Developer item);
 }

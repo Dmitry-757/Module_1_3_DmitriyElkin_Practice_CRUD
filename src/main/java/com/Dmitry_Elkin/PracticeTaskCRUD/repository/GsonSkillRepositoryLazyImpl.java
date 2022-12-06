@@ -80,4 +80,11 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository{
         item.setDeleted();
         addOrUpdate(item);
     }
+
+    @Override
+    public void unDelete(Skill item) {
+        item.setUnDeleted();
+        addOrUpdate(item);
+    }
+
 }

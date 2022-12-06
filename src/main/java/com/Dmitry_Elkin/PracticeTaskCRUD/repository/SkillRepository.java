@@ -16,4 +16,7 @@ public interface SkillRepository extends GenericRepository<Skill, Long>{
 
     @Override
     void delete(Skill item);
+
+    @Override
+    void unDelete(Skill item);
 }

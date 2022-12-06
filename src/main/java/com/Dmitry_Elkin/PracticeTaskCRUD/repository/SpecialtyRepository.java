@@ -17,4 +17,7 @@ public interface SpecialtyRepository extends GenericRepository<Specialty, Long> 
 
     @Override
     void delete(Specialty item);
+
+    @Override
+    void unDelete(Specialty item);
 }
