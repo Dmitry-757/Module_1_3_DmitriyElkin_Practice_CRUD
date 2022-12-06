@@ -1,5 +1,6 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.Dmitry_Elkin.PracticeTaskCRUD.myRepository.MyGenericRepositoryImpl;
@@ -121,5 +122,48 @@ class MyGenericRepositoryImplTest {
 
     }
 
+
+    @Test
+    void addOrUpdateDeveloper() {
+        MyGenericRepositoryImpl<Developer> gsonRepository = new MyGenericRepositoryImpl<>(Developer.class);
+        MyGenericRepositoryImpl<Specialty> gsonSpecialtyRepository = new MyGenericRepositoryImpl<>(Specialty.class);
+        Path file = Paths.get("developer.json");
+        Developer item1 = new Developer("Vasja", "Pupkin",gsonSpecialtyRepository.getById(1L));
+        Developer item2 = new Developer("Petja","Pitkin",gsonSpecialtyRepository.getById(2L));
+
+
+        System.out.println("****** add **********");
+        gsonRepository.addOrUpdate(item1);
+        gsonRepository.addOrUpdate(item2);
+
+        try {
+            List<String> list = Files.readAllLines(file);
+            list.forEach(System.out::println);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("\n"+"***** update now ********");
+
+        item2.setLastName(item2.getLastName()+" updated");
+        item2.setId(2);
+        gsonRepository.addOrUpdate(item2);
+
+        try {
+            List<String> list = Files.readAllLines(file);
+            list.forEach(System.out::println);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Test
+    void getAllDeveloper() {
+        MyGenericRepositoryImpl<Developer> gsonRepository = new MyGenericRepositoryImpl<>(Developer.class);
+
+        List<Developer> list = gsonRepository.getAll();
+        list.forEach(System.out::println);
+    }
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Developer {
+public class Developer implements BaseModelsMethsI {
     private static volatile long lastId;
 
     private long id;
@@ -27,6 +27,13 @@ public class Developer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.skills = skills;
+        this.specialty = specialty;
+        this.status = Status.ACTIVE;
+    }
+
+    public Developer(String firstName, String lastName, Specialty specialty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.specialty = specialty;
         this.status = Status.ACTIVE;
     }
