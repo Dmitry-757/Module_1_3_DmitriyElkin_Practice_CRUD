@@ -1,6 +1,7 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.SkillRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,8 +59,10 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository {
 
 
     @Override
-    public List<Skill> getAll() {
-        return skillSet.values().stream().toList();
+    public List<Skill> getAll(Status status) {
+        return skillSet.values().stream()
+                .filter(i -> (status == null || i.getStatus() == status))
+                .toList();
     }
 
     @Override

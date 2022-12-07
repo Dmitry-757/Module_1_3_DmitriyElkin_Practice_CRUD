@@ -96,4 +96,8 @@ public class Skill implements BaseModelsMethsI{
                 ", status=" + status +
                 '}';
     }
+
+    public Status getStatus() {
+        return status;
+    }
 }

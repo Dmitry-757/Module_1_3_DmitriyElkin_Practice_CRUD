@@ -1,6 +1,7 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -35,6 +36,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
             .create();
 
     public GsonSkillRepositoryImpl() {
+
         this.fileName = typeParameterClass.getSimpleName().toLowerCase() + ".json";
         this.tmpFileName = typeParameterClass.getSimpleName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
@@ -44,20 +46,25 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
 
     @Override
-    public List<Skill> getAll() {
-        List<Skill> skillList = new LinkedList<>();
+    public List<Skill> getAll(Status status) {
+        List<Skill> itemList = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
-                Skill skill = new Gson().fromJson(jsonStr, Skill.class);
-//                System.out.println(skill);
-                skillList.add(skill);
+                Skill item = new Gson().fromJson(jsonStr, Skill.class);
+                if (status == null) {
+                    itemList.add(item);
+                } else if (item.getStatus() == status) {
+                    itemList.add(item);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return skillList;
+        return itemList;
     }
+
+
 
     @Override
     public Skill getById(Long id) {

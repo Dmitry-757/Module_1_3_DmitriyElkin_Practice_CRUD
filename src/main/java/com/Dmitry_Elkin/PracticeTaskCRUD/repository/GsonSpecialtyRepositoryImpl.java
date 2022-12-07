@@ -2,6 +2,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,18 +41,22 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     @Override
-    public List<Specialty> getAll() {
-        List<Specialty> list = new LinkedList<>();
+    public List<Specialty> getAll(Status status) {
+        List<Specialty> itemList = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
                 Specialty item = new Gson().fromJson(jsonStr, Specialty.class);
-                list.add(item);
+                if (status == null) {
+                    itemList.add(item);
+                } else if (item.getStatus() == status) {
+                    itemList.add(item);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return list;
+        return itemList;
     }
 
 

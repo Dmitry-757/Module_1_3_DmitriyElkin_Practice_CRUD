@@ -1,6 +1,7 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface DeveloperRepository extends GenericRepository<Developer, Long>{
     void addOrUpdate(Developer item);
 
     @Override
-    List<Developer> getAll();
+    List<Developer> getAll(Status status);
 
     @Override
     Developer getById(Long id);

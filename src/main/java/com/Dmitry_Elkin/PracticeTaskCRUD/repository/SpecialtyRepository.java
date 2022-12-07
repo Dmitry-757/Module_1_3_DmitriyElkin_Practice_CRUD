@@ -1,6 +1,7 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface SpecialtyRepository extends GenericRepository<Specialty, Long> 
 
 
     @Override
-    List<Specialty> getAll();
+    List<Specialty> getAll(Status status);
 
     @Override
     Specialty getById(Long id);

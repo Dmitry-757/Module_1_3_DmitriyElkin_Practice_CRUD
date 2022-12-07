@@ -7,6 +7,5 @@ public interface BaseModelsMethsI {
     void setNewId();
     void setDeleted();
     void setUnDeleted();
-
-
+    Status getStatus();
 }

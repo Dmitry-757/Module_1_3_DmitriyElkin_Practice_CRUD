@@ -75,6 +75,10 @@ public class Specialty implements BaseModelsMethsI {
         Name = name;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

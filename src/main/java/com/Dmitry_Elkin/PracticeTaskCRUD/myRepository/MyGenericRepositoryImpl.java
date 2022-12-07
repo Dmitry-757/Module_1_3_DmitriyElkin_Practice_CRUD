@@ -3,6 +3,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.GenericRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,18 +51,23 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
 
 
     @Override
-    public List<T> getAll() {
-        List<T> list = new LinkedList<>();
+    public List<T> getAll(Status status) {
+        List<T> itemList = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
                 T item = (T) new Gson().fromJson(jsonStr, typeParameterClass);
-                list.add(item);
+                if (status == null) {
+                    itemList.add(item);
+                } else if (item.getStatus() == status) {
+                    itemList.add(item);
+                }
+
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return list;
+        return itemList;
     }
 
 

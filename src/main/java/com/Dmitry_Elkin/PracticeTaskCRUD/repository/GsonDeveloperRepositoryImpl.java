@@ -2,6 +2,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -46,19 +47,22 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
 
 
     @Override
-    public List<Developer> getAll() {
-        List<Developer> list = new LinkedList<>();
+    public List<Developer> getAll(Status status) {
+        List<Developer> itemList = new LinkedList<>();
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
                 Developer item = new Gson().fromJson(jsonStr, Developer.class);
-//                System.out.println(skill);
-                list.add(item);
+                if (status == null) {
+                    itemList.add(item);
+                } else if (item.getStatus() == status) {
+                    itemList.add(item);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return list;
+        return itemList;
     }
 
     @Override
