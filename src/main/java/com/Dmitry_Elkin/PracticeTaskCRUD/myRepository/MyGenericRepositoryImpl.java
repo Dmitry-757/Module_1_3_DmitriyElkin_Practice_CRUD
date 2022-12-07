@@ -1,12 +1,14 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.GenericRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +32,7 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
     private final String tmpFileName;
     private final Path file;
     private final Path tmpFile;
+    private final Path lastIdfile;
 
     private static final Gson gson = new GsonBuilder()
 //            .setPrettyPrinting() //formats json-file to well done form
@@ -41,6 +44,8 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
         this.tmpFileName = typeParameterClass.getSimpleName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
         this.tmpFile = Path.of(tmpFileName);
+        this.lastIdfile = Path.of(typeParameterClass.getSimpleName().toLowerCase() + ".lastId");
+
     }
 
 
@@ -102,6 +107,10 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
             } else {
                 Files.write(file, List.of(gson.toJson(item)), StandardOpenOption.CREATE);
             }
+            //записываем lastId
+            long lastId = item.getStaticLastId();
+            Files.writeString(lastIdfile, "" + lastId, Charset.defaultCharset(), StandardOpenOption.CREATE);
+
         } catch (IOException e) {
             System.out.println("oops, IO exception was occurred (( " + e.getMessage());
         }
