@@ -1,5 +1,8 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -7,6 +10,15 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Skill implements BaseModelsMethsI{
     private static volatile long lastId;
 
+    static{
+        if (lastId == 0){
+            try {
+                lastId = Long.parseLong(Files.readString(Path.of("skill.lastId")));
+            } catch (IOException e) {
+                System.out.println("oops! there is some io exception "+e.getMessage());
+            }
+        }
+    }
     private long id;
     private String Name;
     private Status status;
@@ -20,14 +32,11 @@ public class Skill implements BaseModelsMethsI{
     public Skill(String name) {
         Name = name;
         status = Status.ACTIVE;
+
     }
 
     public static long getLastId() {
         return lastId;
-    }
-
-    public static void setLastId(long lastId) {
-        Skill.lastId = lastId;
     }
 
 

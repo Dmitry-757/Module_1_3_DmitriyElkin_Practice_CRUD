@@ -1,6 +1,8 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ class GsonSkillRepositoryImplTest {
     Skill skill1 = new Skill("Linear algebra");
     Skill skill2 = new Skill("java EE");
     GsonSkillRepositoryImpl gsonSkillRepository = new GsonSkillRepositoryImpl();
+
+
 
     @Test
     void addOrUpdate() {
@@ -37,6 +41,21 @@ class GsonSkillRepositoryImplTest {
         skill2.setName(skill2.getName()+" updated");
         skill2.setId(2);
         gsonSkillRepository.addOrUpdate(skill2);
+
+        try {
+            List<String> list = Files.readAllLines(file);
+            list.forEach(System.out::println);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    @Test
+    void add() {
+
+        Skill skill = new Skill("Algorithms");
+        System.out.println("****** add **********");
+        gsonSkillRepository.addOrUpdate(skill);
 
         try {
             List<String> list = Files.readAllLines(file);

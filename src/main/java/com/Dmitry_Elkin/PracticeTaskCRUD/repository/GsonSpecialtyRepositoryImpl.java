@@ -1,10 +1,12 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.repository;
 
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +25,8 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
     private final Path file;
     private final Path tmpFile;
 
+    private final Path lastIdfile;
+
     private final Gson gson = new GsonBuilder()
 //            .setPrettyPrinting() //formats json-file to well done form
             .create();
@@ -32,6 +36,7 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         this.tmpFileName = typeParameterClass.getName().toLowerCase() + ".tmp";
         this.file = Paths.get(fileName);
         this.tmpFile = Path.of(tmpFileName);
+        this.lastIdfile = Path.of(typeParameterClass.getSimpleName().toLowerCase() + ".lastId");
     }
 
     @Override
@@ -67,7 +72,6 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
             }
         } catch (IOException e) {
             System.out.println("oops! some io exception was occurred "+e.getMessage());
-//            throw new RuntimeException(e);
         }
 
         return null;
@@ -93,6 +97,9 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
             } else {
                 Files.write(file, List.of(gson.toJson(item)), StandardOpenOption.CREATE);
             }
+            //записываем lastId
+            long lastId = Specialty.getLastId();
+            Files.writeString(lastIdfile, "" + lastId, Charset.defaultCharset(), StandardOpenOption.CREATE);
         } catch (IOException e) {
             //throw new RuntimeException(e);
             System.out.println("oops, IO exception was occurred (( " + e.getMessage());
@@ -111,7 +118,6 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
                 updatingItem = new Gson().fromJson(jsonStr, Specialty.class);
 
                 if (updatingItem.getId() == item.getId()) {
-                    //line = line.replace(stringToReplace, replaceWith);
                     jsonStr = gson.toJson(item);
                 }
 
@@ -122,15 +128,11 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
 //            throw new RuntimeException(e);
             System.out.println("oops! File not found! "+e.getMessage());
         } catch (IOException e) {
-            //throw new RuntimeException(e);
             System.out.println("oops! some IO exception : "+e.getMessage());
         }
         try {
-//            Files.copy(tmpFile, file, REPLACE_EXISTING);
-//            Files.delete(tmpFile);
             Files.move(tmpFile, file, REPLACE_EXISTING);
         } catch (IOException e) {
-//            throw new RuntimeException(e);
             System.out.println("oops! some IO exception : "+e.getMessage());
         }
 
@@ -147,5 +149,6 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         item.setUnDeleted();
         update(item);
     }
+
 
 }
