@@ -8,4 +8,8 @@ public interface BaseModelsMethsI {
     void setDeleted();
     void setUnDeleted();
     Status getStatus();
+
+    String getName();
+    void setName(String name);
+
 }

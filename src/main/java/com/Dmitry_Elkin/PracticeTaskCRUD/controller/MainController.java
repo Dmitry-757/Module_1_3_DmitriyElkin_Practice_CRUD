@@ -2,6 +2,9 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.controller;
 
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.AppMain;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.myRepository.GsonSkillRepositoryLazyImpl;
+import com.Dmitry_Elkin.PracticeTaskCRUD.repository.RepositoryFactory;
 
 import java.util.Scanner;
 
@@ -15,6 +18,9 @@ public class MainController {
             sc.nextLine();
             switch (choice) {
                 case 1 -> SkillController.menu();
+                case 11 -> {
+                    (new Controller<Skill>(Skill.class, RepositoryFactory.getSkillRepository())).menu();
+                }
 //                case 2 -> SpecialtyController.menu();
 //                case 3 -> DeveloperController.menu();
                 case 0 -> AppMain.terminate = true;

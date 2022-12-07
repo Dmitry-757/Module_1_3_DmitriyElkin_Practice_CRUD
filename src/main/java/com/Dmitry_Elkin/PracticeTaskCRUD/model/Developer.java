@@ -110,6 +110,17 @@ public class Developer implements BaseModelsMethsI {
         return status;
     }
 
+    //*** for compatability with interface BaseModelsMethsI ***
+    @Override
+    public String getName() {
+        return getFirstName();
+    }
+    @Override
+    public void setName(String name) {
+        setFirstName(name);
+    }
+    //*****************************************************
+
     public void setDeleted() {
         status = Status.DELETED;
     }
