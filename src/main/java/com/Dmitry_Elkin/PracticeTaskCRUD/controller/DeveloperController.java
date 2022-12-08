@@ -62,16 +62,16 @@ public class DeveloperController {
         repository.addOrUpdate(new Developer(firstName, lastName, skills, specialty));
     }
 
-    private static String getStringParamFromConsole(String parameterName){
+    private static String getStringParamFromConsole(String parameterName) {
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
-        System.out.println("Input "+parameterName);
+        System.out.println("Input " + parameterName);
         String strParam;
         while (true) {
             String line = sc.nextLine();
             Matcher matcher = pattern.matcher(line);
             if (matcher.find()) {
                 strParam = matcher.group();
-                System.out.println(parameterName+" is: " + strParam);
+                System.out.println(parameterName + " is: " + strParam);
                 return strParam;
             } else {
                 System.out.println("wrong input... Please, try again!");
@@ -79,16 +79,12 @@ public class DeveloperController {
         }
     }
 
-    private static List<Skill> getListFromConsole(){
+    private static List<Skill> getListFromConsole() {
 
         String strParam;
         List<Skill> result = new ArrayList<>();
         System.out.println("Choose from items:");
 
-        System.out.println("current items:");
-        for (Skill item : skillRepository.getAll(Status.ACTIVE)) {
-            System.out.println(item.toString());
-        }
 
 //        SkillController.printItems(Status.ACTIVE);
 //        if (repository.getAll(Status.ACTIVE).size() == 0){
@@ -96,18 +92,26 @@ public class DeveloperController {
 //            return;
 //        }
 
-        System.out.println("Input id of chosen item");
-        if (sc.hasNextLong()) {
-            long id = sc.nextLong();
-            sc.nextLine();
-            Skill item = skillRepository.getById(id);
-            if (item != null) {
-                System.out.println("choosing item is : "+item.toString());
-                result.add(item);
-            } else
-                System.out.println("item by id `" + id + "` was not found...");
-        } else {
-            System.out.println("wrong input...");
+        while (true) {
+            System.out.println("\ncurrent items:");
+            for (Skill item : skillRepository.getAll(Status.ACTIVE)) {
+                System.out.println(item.toString());
+            }
+            System.out.println("Input id of chosen item, or type 0 for end of choosing");
+            if (sc.hasNextLong()) {
+                long id = sc.nextLong();
+                if (id == 0) break;
+
+                sc.nextLine();
+                Skill item = skillRepository.getById(id);
+                if (item != null) {
+                    System.out.println("choosing item is : " + item.toString());
+                    result.add(item);
+                } else
+                    System.out.println("item by id `" + id + "` was not found...");
+            } else {
+                System.out.println("wrong input...");
+            }
         }
 
         return result;
@@ -146,7 +150,7 @@ public class DeveloperController {
     public static void printItems(Status status) {
         System.out.println("current items:");
         for (Developer item : repository.getAll(status)) {
-            System.out.println(" id = " + item.getId() + " item = " + item.getName() + " status = " + item.getStatus().name());
+            System.out.println(item.toString());
         }
     }
 
@@ -154,7 +158,7 @@ public class DeveloperController {
     private static void deleteItem() {
         System.out.println("Choose item from:");
         printItems(Status.ACTIVE);
-        if (repository.getAll(Status.ACTIVE).size() == 0){
+        if (repository.getAll(Status.ACTIVE).size() == 0) {
             System.out.println("There is no Non-deleted items");
             return;
         }
@@ -165,7 +169,7 @@ public class DeveloperController {
             sc.nextLine();
             Developer item = repository.getById(id);
             if (item != null) {
-                System.out.println("deleting item is : "+item.toString());
+                System.out.println("deleting item is : " + item.toString());
                 repository.delete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");
@@ -177,7 +181,7 @@ public class DeveloperController {
     private static void unDeleteItem() {
         System.out.println("Choose item from:");
         printItems(Status.DELETED);
-        if (repository.getAll(Status.DELETED).size() == 0){
+        if (repository.getAll(Status.DELETED).size() == 0) {
             System.out.println("There is no deleted items");
             return;
         }
@@ -188,7 +192,7 @@ public class DeveloperController {
             sc.nextLine();
             Developer item = repository.getById(id);
             if (item != null) {
-                System.out.println("UnDeleting item is : "+item.toString());
+                System.out.println("UnDeleting item is : " + item.toString());
                 repository.unDelete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");

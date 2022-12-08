@@ -49,6 +49,10 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     public List<Skill> getAll(Status status) {
         List<Skill> itemList = new LinkedList<>();
         try {
+            if (!Files.exists(file)){
+                System.out.println("file "+fileName+" not exist!");
+                return itemList;
+            }
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
                 Skill item = new Gson().fromJson(jsonStr, Skill.class);
@@ -59,7 +63,8 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("some io exception in module GsonSkillRepositoryImpl in meth getAll: "+e.getMessage());
+            //throw new RuntimeException(e);
         }
         return itemList;
     }
@@ -75,7 +80,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill getById(Long id) {
         if (!Files.exists(file)) {
-            System.out.println("The file 'skill.json' is absent!");
+            System.out.println("file "+fileName+" not exist!");
             return null;
         }
         String jsonStr;
@@ -89,7 +94,9 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
             }
         } catch (IOException e) {
 //            throw new RuntimeException(e);
-            System.out.println("oops! some io exception was occurred " + e.getMessage());
+//            System.out.println("oops! some io exception was occurred " + e.getMessage());
+            System.out.println("some io exception in module GsonSkillRepositoryImpl in meth getById: "+e.getMessage());
+
         }
 
         return null;
@@ -121,11 +128,17 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
         } catch (IOException e) {
             //throw new RuntimeException(e);
-            System.out.println("oops, IO exception was occurred (( " + e.getMessage());
+//            System.out.println("oops, IO exception was occurred (( " + e.getMessage());
+            System.out.println("some io exception in module GsonSkillRepositoryImpl in meth add: "+e.getMessage());
         }
     }
 
     public void update(Skill item) {
+        if (!Files.exists(file)) {
+            System.out.println("file "+fileName+" not exist!");
+            return;
+        }
+
         //построчно переписываем файл, изменяя только строку содержащую отредактированный объект
         try (
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
@@ -146,14 +159,18 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
             }
         } catch (FileNotFoundException e) {
 //            throw new RuntimeException(e);
-            System.out.println("oops! File not found! " + e.getMessage());
+//            System.out.println("oops! File not found! " + e.getMessage());
+            System.out.println("some FileNotFoundException exception in module GsonSkillRepositoryImpl in meth update: "+e.getMessage());
+
         } catch (IOException e) {
-            System.out.println("oops! some IO exception : " + e.getMessage());
+//            System.out.println("oops! some IO exception : " + e.getMessage());
+            System.out.println("some IOException exception in module GsonSkillRepositoryImpl in meth update: "+e.getMessage());
         }
         try {
             Files.move(tmpFile, file, REPLACE_EXISTING);
         } catch (IOException e) {
-            System.out.println("oops! some IO exception : " + e.getMessage());
+//            System.out.println("oops! some IO exception : " + e.getMessage());
+            System.out.println("some IOException exception in module GsonSkillRepositoryImpl in meth update: "+e.getMessage());
         }
 
     }

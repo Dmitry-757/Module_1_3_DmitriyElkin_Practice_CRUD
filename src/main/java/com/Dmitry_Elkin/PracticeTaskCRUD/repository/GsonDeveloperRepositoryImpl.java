@@ -49,6 +49,10 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public List<Developer> getAll(Status status) {
         List<Developer> itemList = new LinkedList<>();
+        if (!Files.exists(file)){
+            System.out.println("file "+fileName+" not exist!");
+            return itemList;
+        }
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
@@ -60,7 +64,7 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("some io exception in module GsonDeveloperRepositoryImpl in meth getAll: "+e.getMessage());
         }
         return itemList;
     }
@@ -73,7 +77,7 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public Developer getById(Long id) {
         if (!Files.exists(file)) {
-            System.out.println("The db file "+fileName+" is absent!");
+            System.out.println("file "+fileName+" not exist!");
             return null;
         }
         String jsonStr;
@@ -87,7 +91,7 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
             }
         } catch (IOException e) {
 //            throw new RuntimeException(e);
-            System.out.println("oops! some io exception was occurred "+e.getMessage());
+            System.out.println("some io exception in module GsonDeveloperRepositoryImpl in meth getById: "+e.getMessage());
         }
 
         return null;
@@ -119,11 +123,16 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
 
         } catch (IOException e) {
             //throw new RuntimeException(e);
-            System.out.println("oops, IO exception was occurred (( " + e.getMessage());
+            System.out.println("some io exception in module GsonDeveloperRepositoryImpl in meth add: "+e.getMessage());
         }
     }
 
     public void update(Developer item){
+        if (!Files.exists(file)) {
+            System.out.println("file "+fileName+" not exist!");
+            return;
+        }
+
         try(
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
                 BufferedWriter out = new BufferedWriter(new FileWriter(tmpFileName));
@@ -142,9 +151,9 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
                 out.newLine();
             }
         } catch (FileNotFoundException e) {
-            System.out.println("oops! File not found! "+e.getMessage());
+            System.out.println("FileNotFoundException in module GsonDeveloperRepositoryImpl in meth update: "+e.getMessage());
         } catch (IOException e) {
-            System.out.println("oops! some IO exception : "+e.getMessage());
+            System.out.println("some io exception in module GsonDeveloperRepositoryImpl in meth add: "+e.getMessage());
         }
         try {
             Files.move(tmpFile, file, REPLACE_EXISTING);
@@ -164,7 +173,5 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
         item.setUnDeleted();
         update(item);
     }
-
-
 
 }

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 //implements BaseModelsMethsI - for my experiment by creating common repository
 //meth getStaticLastId() is needed  for possibility to get lastId from instance of model-class
@@ -148,10 +149,12 @@ public class Developer implements BaseModelsMethsI {
     public String toString() {
         return "Developer{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", specialty=" + specialty.getName() +
-                ", status=" + status +
+                ", firstName = '" + firstName + '\'' +
+                ", lastName = '" + lastName + '\'' +
+                ", skills = " +
+                skills.stream().map(Object::toString).collect(Collectors.joining(", ")) +
+                ", specialty = " + (specialty != null ? specialty.getName() : "SpecialtyLess ((") +
+                ", status = " + status +
                 '}';
     }
 }
