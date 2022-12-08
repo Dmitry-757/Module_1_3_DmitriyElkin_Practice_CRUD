@@ -1,4 +1,4 @@
-package com.Dmitry_Elkin.PracticeTaskCRUD.controller;
+package com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myController;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 
 import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
 
-public class Controller<T extends BaseModelsMethsI> {
+public class MyGenericController<T extends BaseModelsMethsI> {
 
     final Class<T> typeParameterClass;
-    private final GenericRepository<T, Long> repository;
+    protected final GenericRepository<T, Long> repository;
 
-    public Controller(Class<T> typeParameterClass, GenericRepository<T, Long> repository) {
+    public MyGenericController(Class<T> typeParameterClass, GenericRepository<T, Long> repository) {
         this.repository = repository;
         this.typeParameterClass = typeParameterClass;
     }
@@ -40,11 +40,15 @@ public class Controller<T extends BaseModelsMethsI> {
                     case 0 -> goBack = true;
                     default -> System.out.println("Wrong input!");
                 }
+            } else {
+                System.out.println("wrong input... Please, use only digits!");
+                sc.nextLine();
             }
+
         }
     }
 
-    private void createNewItem() {
+    protected void createNewItem() {
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
         System.out.println("Input name of item");
         String name;
@@ -63,7 +67,7 @@ public class Controller<T extends BaseModelsMethsI> {
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException e) {
 //                throw new RuntimeException(e);
-                System.out.println("error during creating new instance of class : "+e.getMessage());
+                System.out.println("error during creating new instance of class : " + e.getMessage());
                 return;
             }
 
@@ -73,7 +77,7 @@ public class Controller<T extends BaseModelsMethsI> {
         }
     }
 
-    private void changeItem() {
+    protected void changeItem() {
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
         printItems(Status.ACTIVE);// do not to disturb the dead
         System.out.println("Input id of changing item");
@@ -102,18 +106,18 @@ public class Controller<T extends BaseModelsMethsI> {
         }
     }
 
-    public void printItems(Status status) {
+    protected void printItems(Status status) {
         System.out.println("current items:");
         for (T item : repository.getAll(status)) {
-            System.out.println(" id = " + item.getId() + " item = " + item.getName() + " status = " + item.getStatus().name());
+            System.out.println(item.toString());
         }
     }
 
 
-    private void deleteItem() {
+    protected void deleteItem() {
         System.out.println("Choose item from:");
         printItems(Status.ACTIVE);
-        if (repository.getAll(Status.ACTIVE).size() == 0){
+        if (repository.getAll(Status.ACTIVE).size() == 0) {
             System.out.println("There is no Non-deleted items");
             return;
         }
@@ -124,7 +128,7 @@ public class Controller<T extends BaseModelsMethsI> {
             sc.nextLine();
             T item = repository.getById(id);
             if (item != null) {
-                System.out.println("deleting item is : "+item.toString());
+                System.out.println("deleting item is : " + item.toString());
                 repository.delete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");
@@ -133,10 +137,10 @@ public class Controller<T extends BaseModelsMethsI> {
         }
     }
 
-    private void unDeleteItem() {
+    protected void unDeleteItem() {
         System.out.println("Choose item from:");
         printItems(Status.DELETED);
-        if (repository.getAll(Status.DELETED).size() == 0){
+        if (repository.getAll(Status.DELETED).size() == 0) {
             System.out.println("There is no deleted items");
             return;
         }
@@ -147,7 +151,7 @@ public class Controller<T extends BaseModelsMethsI> {
             sc.nextLine();
             T item = repository.getById(id);
             if (item != null) {
-                System.out.println("UnDeleting item is : "+item.toString());
+                System.out.println("UnDeleting item is : " + item.toString());
                 repository.unDelete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");

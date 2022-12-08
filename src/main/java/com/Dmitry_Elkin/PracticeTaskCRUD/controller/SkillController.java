@@ -35,6 +35,9 @@ public class SkillController {
                     case 0 -> goBack = true;
                     default -> System.out.println("Wrong input!");
                 }
+            } else {
+                System.out.println("wrong input... Please, use only digits!");
+                sc.nextLine();
             }
         }
     }
@@ -84,7 +87,7 @@ public class SkillController {
         }
     }
 
-    public static void printItems(Status status) {
+    private static void printItems(Status status) {
         System.out.println("current items:");
         for (Skill item : repository.getAll(status)) {
             System.out.println(" id = " + item.getId() + " item = " + item.getName() + " status = " + item.getStatus().name());

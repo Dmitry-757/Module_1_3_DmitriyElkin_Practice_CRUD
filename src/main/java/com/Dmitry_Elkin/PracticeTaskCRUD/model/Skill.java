@@ -14,7 +14,9 @@ public class Skill implements BaseModelsMethsI{
     static{
         if (lastId == 0){
             try {
-                lastId = Long.parseLong(Files.readString(Path.of("skill.lastId")));
+                if (Files.exists(Path.of("skill.lastId"))) {
+                    lastId = Long.parseLong(Files.readString(Path.of("skill.lastId")));
+                }
             } catch (IOException e) {
                 System.out.println("oops! there is some io exception "+e.getMessage());
             }

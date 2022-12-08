@@ -14,7 +14,9 @@ public class Developer implements BaseModelsMethsI {
     static{
         if (lastId == 0){
             try {
-                lastId = Long.parseLong(Files.readString(Path.of("developer.lastId")));
+                if (Files.exists(Path.of("developer.lastId"))) {
+                    lastId = Long.parseLong(Files.readString(Path.of("developer.lastId")));
+                }
             } catch (IOException e) {
                 System.out.println("oops! there is some io exception "+e.getMessage());
             }

@@ -14,7 +14,9 @@ public class Specialty implements BaseModelsMethsI {
     static{
         if (lastId == 0){
             try {
-                lastId = Long.parseLong(Files.readString(Path.of("specialty.lastId")));
+                if (Files.exists(Path.of("specialty.lastId"))) {
+                    lastId = Long.parseLong(Files.readString(Path.of("specialty.lastId")));
+                }
             } catch (IOException e) {
                 System.out.println("oops! there is some io exception "+e.getMessage());
             }

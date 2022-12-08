@@ -1,4 +1,4 @@
-package com.Dmitry_Elkin.PracticeTaskCRUD.myRepository;
+package com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myRepository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
