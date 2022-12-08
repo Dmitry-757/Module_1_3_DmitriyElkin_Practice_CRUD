@@ -1,6 +1,6 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.controller;
 
-import com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myController.MySkillController;
+
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
@@ -9,7 +9,7 @@ import com.Dmitry_Elkin.PracticeTaskCRUD.repository.DeveloperRepository;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.RepositoryFactory;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.SkillRepository;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,7 +82,7 @@ public class DeveloperController {
     private static List<Skill> getListFromConsole(){
 
         String strParam;
-        List<Skill> result = new LinkedList<>();
+        List<Skill> result = new ArrayList<>();
         System.out.println("Choose from items:");
 
         System.out.println("current items:");
