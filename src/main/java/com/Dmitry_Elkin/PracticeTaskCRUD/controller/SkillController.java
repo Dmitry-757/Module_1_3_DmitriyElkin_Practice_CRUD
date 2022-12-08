@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
 
+
 public class SkillController {
 
     private static final SkillRepository repository = RepositoryFactory.getSkillRepository();

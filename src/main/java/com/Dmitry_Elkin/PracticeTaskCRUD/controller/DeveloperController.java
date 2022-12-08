@@ -1,12 +1,16 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.controller;
 
+import com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myController.MySkillController;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.DeveloperRepository;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.RepositoryFactory;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.SkillRepository;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +19,7 @@ import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
 public class DeveloperController {
 
     private static final DeveloperRepository repository = RepositoryFactory.getDeveloperRepository();
+    private static final SkillRepository skillRepository = RepositoryFactory.getSkillRepository();
 
     //************* menu ********************
     public static void menu() {
@@ -47,17 +52,67 @@ public class DeveloperController {
 
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
         System.out.println("Input name of item");
-        String name;
-        String line = sc.nextLine();
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            name = matcher.group();
-            System.out.println("name of item = " + name);
-            repository.addOrUpdate(new Developer(name));
-        } else {
-            System.out.println("wrong input... Please, use only letters!");
+
+        String firstName = getStringParamFromConsole("first name");
+        String lastName = getStringParamFromConsole("second name");
+        List<Skill> skills = getListFromConsole();
+        Specialty specialty = null;
+//        Status status;
+        //String firstName, String lastName, List<Skill> skills, Specialty specialty
+        repository.addOrUpdate(new Developer(firstName, lastName, skills, specialty));
+    }
+
+    private static String getStringParamFromConsole(String parameterName){
+        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
+        System.out.println("Input "+parameterName);
+        String strParam;
+        while (true) {
+            String line = sc.nextLine();
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                strParam = matcher.group();
+                System.out.println(parameterName+" is: " + strParam);
+                return strParam;
+            } else {
+                System.out.println("wrong input... Please, try again!");
+            }
         }
     }
+
+    private static List<Skill> getListFromConsole(){
+
+        String strParam;
+        List<Skill> result = new LinkedList<>();
+        System.out.println("Choose from items:");
+
+        System.out.println("current items:");
+        for (Skill item : skillRepository.getAll(Status.ACTIVE)) {
+            System.out.println(item.toString());
+        }
+
+//        SkillController.printItems(Status.ACTIVE);
+//        if (repository.getAll(Status.ACTIVE).size() == 0){
+//            System.out.println("There is no Non-deleted items");
+//            return;
+//        }
+
+        System.out.println("Input id of chosen item");
+        if (sc.hasNextLong()) {
+            long id = sc.nextLong();
+            sc.nextLine();
+            Skill item = skillRepository.getById(id);
+            if (item != null) {
+                System.out.println("choosing item is : "+item.toString());
+                result.add(item);
+            } else
+                System.out.println("item by id `" + id + "` was not found...");
+        } else {
+            System.out.println("wrong input...");
+        }
+
+        return result;
+    }
+
 
     private static void changeItem() {
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
@@ -88,7 +143,7 @@ public class DeveloperController {
         }
     }
 
-    private static void printItems(Status status) {
+    public static void printItems(Status status) {
         System.out.println("current items:");
         for (Developer item : repository.getAll(status)) {
             System.out.println(" id = " + item.getId() + " item = " + item.getName() + " status = " + item.getStatus().name());
