@@ -64,7 +64,7 @@ public class SpecialtyController {
 
 
     private static void deleteItem() {
-        Specialty item = getGenericParamFromConsole("Specialty", repository);
+        Specialty item = getGenericParamFromConsole("Specialty", repository, Status.ACTIVE);
         if (item != null) {
 //            System.out.println("deleting item is : " + item.toString());
             System.out.println("deleting item is : " + item);
@@ -73,7 +73,7 @@ public class SpecialtyController {
     }
 
     private static void unDeleteItem() {
-        Specialty item = getGenericParamFromConsole("Specialty", repository);
+        Specialty item = getGenericParamFromConsole("Specialty", repository, Status.DELETED);
         if (item != null) {
 //            System.out.println("UnDeleting item is : " + item.toString());
             System.out.println("UnDeleting item is : " + item);

@@ -82,7 +82,6 @@ public class DeveloperController {
                 }
 
                 repository.addOrUpdate(item);
-//                System.out.println("After edit item is : "+item.toString());
                 System.out.println("After edit item is : "+item);
             } else
                 System.out.println("item by id `" + id + "` is not found");
@@ -97,9 +96,8 @@ public class DeveloperController {
 
 
     private static void deleteItem() {
-        Developer item = getGenericParamFromConsole("Developer", repository);
+        Developer item = getGenericParamFromConsole("Developer", repository, Status.ACTIVE);
         if (item != null) {
-//            System.out.println("deleting item is : " + item.toString());
             System.out.println("deleting item is : " + item);
             repository.delete(item);
         }
@@ -107,9 +105,8 @@ public class DeveloperController {
     }
 
     private static void unDeleteItem() {
-        Developer item = getGenericParamFromConsole("Developer", repository);
+        Developer item = getGenericParamFromConsole("Developer", repository, Status.DELETED);
         if (item != null) {
-//            System.out.println("UnDeleting item is : " + item.toString());
             System.out.println("UnDeleting item is : " + item);
             repository.unDelete(item);
         }

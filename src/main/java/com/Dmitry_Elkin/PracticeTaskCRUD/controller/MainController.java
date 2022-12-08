@@ -17,9 +17,10 @@ public class MainController {
     public static Scanner sc = new Scanner(System.in);
 
     public void upLevelMenu() {
-        System.out.println("1 - work with Skills, 11 - non-TT-GenericController for Skill, 111 - non-TT-SkillController," +
-                " 2 - work with Specialties, 22 - non-TT-GenericController for Specialty, 222 - non-TT-SpecialtyController," +
-                " 3 - work with Developers, 333 - non-TechTask DeveloperController, 0 - exit");
+        System.out.println("1 - work with Skills, " +
+                " 2 - work with Specialties, " +
+                " 3 - work with Developers," +
+                " 0 - exit");
         if (sc.hasNextInt()) {
             int choice = sc.nextInt();
             sc.nextLine();

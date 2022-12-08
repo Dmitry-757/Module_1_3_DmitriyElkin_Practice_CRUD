@@ -129,7 +129,7 @@ public class SkillController {
 //            System.out.println("wrong input...");
 //        }
 
-        Skill item = getGenericParamFromConsole("Skill", repository);
+        Skill item = getGenericParamFromConsole("Skill", repository, Status.ACTIVE);
         if (item != null) {
             System.out.println("deleting item is : " + item);
             repository.delete(item);
@@ -158,10 +158,10 @@ public class SkillController {
 //        } else {
 //            System.out.println("wrong input...");
 //        }
-        Skill item = getGenericParamFromConsole("Skill", repository);
+        Skill item = getGenericParamFromConsole("Skill", repository, Status.DELETED);
         if (item != null) {
-            System.out.println("deleting item is : " + item);
-            repository.delete(item);
+            System.out.println("UnDeleting item is : " + item);
+            repository.unDelete(item);
         }
     }
 

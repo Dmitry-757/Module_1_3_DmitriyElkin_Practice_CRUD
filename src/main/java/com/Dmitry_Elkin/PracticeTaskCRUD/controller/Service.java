@@ -13,7 +13,7 @@ import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
 public class Service {
 
     static String getStringParamFromConsole(String parameterName) {
-        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
+        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s-_#]*");
         System.out.println("Input " + parameterName);
         String strParam;
         while (true) {
@@ -29,14 +29,14 @@ public class Service {
         }
     }
 
-    public static  <T> T getGenericParamFromConsole(String parameterName, GenericRepository<T, Long> repository) {
+    public static  <T> T getGenericParamFromConsole(String parameterName, GenericRepository<T, Long> repository, Status status) {
         if (repository.getAll(Status.ACTIVE).size() == 0){
             System.out.println("There is no items for choice!");
         }
         System.out.println("Input " + parameterName);
         while (true) {
             System.out.println("\ncurrent items:");
-            for (T item : repository.getAll(Status.ACTIVE)) {
+            for (T item : repository.getAll(status)) {
                 System.out.println(item.toString());
             }
             System.out.println("Input id of chosen item, or type 0 for end of choosing");
@@ -58,6 +58,10 @@ public class Service {
         }
         return null;
     }
+    public static  <T> T getGenericParamFromConsole(String parameterName, GenericRepository<T, Long> repository) {
+        return getGenericParamFromConsole(parameterName, repository, Status.ACTIVE);
+    }
+
 
     public static <T> List<T> getGenericListFromConsole(String parameterName, GenericRepository<T, Long> repository) {
 
