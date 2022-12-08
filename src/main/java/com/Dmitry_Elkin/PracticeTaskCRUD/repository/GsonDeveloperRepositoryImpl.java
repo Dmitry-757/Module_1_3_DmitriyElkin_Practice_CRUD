@@ -64,6 +64,11 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
         }
         return itemList;
     }
+    //чтоб не переписывать код, где вызывается метод без параметров
+    @Override
+    public List<Developer> getAll() {
+        return getAll(null);
+    }
 
     @Override
     public Developer getById(Long id) {

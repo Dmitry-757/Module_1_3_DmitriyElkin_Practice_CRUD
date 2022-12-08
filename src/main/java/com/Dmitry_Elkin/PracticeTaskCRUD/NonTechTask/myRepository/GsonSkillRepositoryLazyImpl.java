@@ -1,5 +1,6 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myRepository;
 
+import com.Dmitry_Elkin.PracticeTaskCRUD.model.Developer;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.SkillRepository;
@@ -63,6 +64,12 @@ public class GsonSkillRepositoryLazyImpl implements SkillRepository {
         return skillSet.values().stream()
                 .filter(i -> (status == null || i.getStatus() == status))
                 .toList();
+    }
+
+    //чтоб не переписывать код, где вызывается метод без параметров
+    @Override
+    public List<Skill> getAll() {
+        return getAll(null);
     }
 
     @Override

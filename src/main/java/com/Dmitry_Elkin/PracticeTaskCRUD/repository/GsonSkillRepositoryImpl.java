@@ -64,6 +64,12 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         return itemList;
     }
 
+    //чтоб не переписывать код, где вызывается метод без параметров
+    @Override
+    public List<Skill> getAll() {
+        return getAll(null);
+    }
+
 
 
     @Override

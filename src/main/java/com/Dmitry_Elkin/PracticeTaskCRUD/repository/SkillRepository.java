@@ -13,6 +13,9 @@ public interface SkillRepository extends GenericRepository<Skill, Long>{
     List<Skill> getAll(Status status);
 
     @Override
+    List<Skill> getAll();
+
+    @Override
     Skill getById(Long id);
 
     @Override

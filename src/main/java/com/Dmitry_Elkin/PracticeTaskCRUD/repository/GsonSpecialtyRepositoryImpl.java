@@ -59,6 +59,11 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         return itemList;
     }
 
+    //чтоб не переписывать код, где вызывается метод без параметров
+    @Override
+    public List<Specialty> getAll() {
+        return getAll(null);
+    }
 
     @Override
     public Specialty getById(Long id) {

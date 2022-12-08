@@ -13,6 +13,9 @@ public interface DeveloperRepository extends GenericRepository<Developer, Long>{
     List<Developer> getAll(Status status);
 
     @Override
+    List<Developer> getAll();
+
+    @Override
     Developer getById(Long id);
 
     @Override

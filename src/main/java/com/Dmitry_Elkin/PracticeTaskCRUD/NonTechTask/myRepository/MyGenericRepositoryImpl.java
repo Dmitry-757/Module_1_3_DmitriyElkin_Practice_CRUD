@@ -70,6 +70,12 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
         return itemList;
     }
 
+    //чтоб не переписывать код, где вызывается метод без параметров
+    @Override
+    public List<T> getAll() {
+        return getAll(null);
+    }
+
 
     @Override
     public T getById(Long id) {

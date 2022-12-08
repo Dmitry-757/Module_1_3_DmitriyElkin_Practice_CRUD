@@ -14,6 +14,9 @@ public interface SpecialtyRepository extends GenericRepository<Specialty, Long> 
     List<Specialty> getAll(Status status);
 
     @Override
+    List<Specialty> getAll();
+
+    @Override
     Specialty getById(Long id);
 
     @Override
