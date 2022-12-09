@@ -1,7 +1,6 @@
 package com.Dmitry_Elkin.PracticeTaskCRUD.NonTechTask.myRepository;
 
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.BaseModelsMethsI;
-import com.Dmitry_Elkin.PracticeTaskCRUD.model.Skill;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Specialty;
 import com.Dmitry_Elkin.PracticeTaskCRUD.model.Status;
 import com.Dmitry_Elkin.PracticeTaskCRUD.repository.GenericRepository;
@@ -56,7 +55,7 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
         try {
             List<String> lines = Files.readAllLines(file);
             for (String jsonStr : lines) {
-                T item = (T) new Gson().fromJson(jsonStr, typeParameterClass);
+                T item = new Gson().fromJson(jsonStr, typeParameterClass);
                 if (status == null) {
                     itemList.add(item);
                 } else if (item.getStatus() == status) {
@@ -65,7 +64,8 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            System.out.println("oops! some io exception was occurred "+e.getMessage());
         }
         return itemList;
     }
@@ -131,7 +131,7 @@ public class MyGenericRepositoryImpl<T extends BaseModelsMethsI> implements Gene
     public void update(T item){
         try(
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
-                BufferedWriter out = new BufferedWriter(new FileWriter(tmpFileName));
+                BufferedWriter out = new BufferedWriter(new FileWriter(tmpFileName))
                 )
         {
             String jsonStr;

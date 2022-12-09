@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
+import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.Service.getStringParamFromConsole;
 
 public class MyGenericController<T extends BaseModelsMethsI> {
 
@@ -49,32 +50,50 @@ public class MyGenericController<T extends BaseModelsMethsI> {
     }
 
     protected void createNewItem() {
-        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
-        System.out.println("Input name of item");
-        String name;
-        String line = sc.nextLine();
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            name = matcher.group();
-            System.out.println("name of item = " + name);
+//        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s]*");
+//        System.out.println("Input name of item");
+//        String name;
+//        String line = sc.nextLine();
+//        Matcher matcher = pattern.matcher(line);
+//        if (matcher.find()) {
+//            name = matcher.group();
+//            System.out.println("name of item = " + name);
+//
+//            T item = null;
+//            try {
+//                Class clazz = Class.forName(typeParameterClass.getName());
+//                Class[] myClassParams = {String.class};//not for Developer!!!!
+//
+//                item = (T) clazz.getConstructor(myClassParams).newInstance(name);
+//            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
+//                     InvocationTargetException | NoSuchMethodException e) {
+////                throw new RuntimeException(e);
+//                System.out.println("error during creating new instance of class : " + e.getMessage());
+//                return;
+//            }
+//
+//            repository.addOrUpdate(item);
+//        } else {
+//            System.out.println("wrong input... Please, use only letters!");
+//        }
+        String name = getStringParamFromConsole("first name");
+        System.out.println("name of item = " + name);
 
-            T item = null;
-            try {
-                Class clazz = Class.forName(typeParameterClass.getName());
-                Class[] myClassParams = {String.class};//not for Developer!!!!
+        T item = null;
+        //*** ONLY FOR MODELS WITH CONSTRUCTOR WITH ONE STRING PARAMETER!!! ***
+        try {
+            Class clazz = Class.forName(typeParameterClass.getName());
+            Class[] myClassParams = {String.class};//ONLY FOR MODELS WITH CONSTRUCTOR WITH ONE STRING PARAMETER!!!
 
-                item = (T) clazz.getConstructor(myClassParams).newInstance(name);
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
-                     InvocationTargetException | NoSuchMethodException e) {
-//                throw new RuntimeException(e);
-                System.out.println("error during creating new instance of class : " + e.getMessage());
-                return;
-            }
-
-            repository.addOrUpdate(item);
-        } else {
-            System.out.println("wrong input... Please, use only letters!");
+            item = (T) clazz.getConstructor(myClassParams).newInstance(name);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException | NoSuchMethodException e) {
+            System.out.println("error during creating new instance of class : " + e.getMessage());
+            return;
         }
+
+        repository.addOrUpdate(item);
+
     }
 
     protected void changeItem() {
@@ -87,7 +106,7 @@ public class MyGenericController<T extends BaseModelsMethsI> {
             System.out.println("your choice = " + id);
             T item = repository.getById(id);
             if (item != null) {
-                System.out.println("editing item = " + item.toString());
+                System.out.println("editing item = " + item);
 
                 System.out.println("Input new name of item");
                 //sc.nextLine();
@@ -128,7 +147,7 @@ public class MyGenericController<T extends BaseModelsMethsI> {
             sc.nextLine();
             T item = repository.getById(id);
             if (item != null) {
-                System.out.println("deleting item is : " + item.toString());
+                System.out.println("deleting item is : " + item);
                 repository.delete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");
@@ -151,7 +170,7 @@ public class MyGenericController<T extends BaseModelsMethsI> {
             sc.nextLine();
             T item = repository.getById(id);
             if (item != null) {
-                System.out.println("UnDeleting item is : " + item.toString());
+                System.out.println("UnDeleting item is : " + item);
                 repository.unDelete(item);
             } else
                 System.out.println("item by id `" + id + "` was not found...");

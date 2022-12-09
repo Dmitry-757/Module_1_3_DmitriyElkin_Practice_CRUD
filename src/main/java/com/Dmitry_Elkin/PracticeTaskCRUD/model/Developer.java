@@ -3,7 +3,7 @@ package com.Dmitry_Elkin.PracticeTaskCRUD.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -27,11 +27,13 @@ public class Developer implements BaseModelsMethsI {
     private long id;
     private String firstName;
     private String lastName;
-    private List<Skill> skills;
+//    private List<Skill> skills;
+    private HashSet<Skill> skills;
+
     private Specialty specialty;
     private Status status;
 
-    public Developer(long id, String firstName, String lastName, List<Skill> skills, Specialty specialty, Status status) {
+    public Developer(long id, String firstName, String lastName, HashSet<Skill> skills, Specialty specialty, Status status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +42,7 @@ public class Developer implements BaseModelsMethsI {
         this.status = status;
     }
 
-    public Developer(String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+    public Developer(String firstName, String lastName, HashSet<Skill> skills, Specialty specialty) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.skills = skills;
@@ -93,11 +95,11 @@ public class Developer implements BaseModelsMethsI {
         this.lastName = lastName;
     }
 
-    public List<Skill> getSkills() {
+    public HashSet<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(HashSet<Skill> skills) {
         this.skills = skills;
     }
 

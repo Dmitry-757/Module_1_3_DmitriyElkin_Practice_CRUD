@@ -12,7 +12,7 @@ import static com.Dmitry_Elkin.PracticeTaskCRUD.controller.MainController.sc;
 
 public class Service {
 
-    static String getStringParamFromConsole(String parameterName) {
+    public static String getStringParamFromConsole(String parameterName) {
         Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я\s-_#]*");
         System.out.println("Input " + parameterName);
         String strParam;
@@ -30,8 +30,9 @@ public class Service {
     }
 
     public static  <T> T getGenericParamFromConsole(String parameterName, GenericRepository<T, Long> repository, Status status) {
-        if (repository.getAll(Status.ACTIVE).size() == 0){
+        if (repository.getAll(status).size() == 0){
             System.out.println("There is no items for choice!");
+            return null;
         }
         System.out.println("Input " + parameterName);
         while (true) {
@@ -100,7 +101,7 @@ public class Service {
 
 
 
-    static <T> void printItems(Status status, GenericRepository<T, Long> repository) {
+    public static <T> void printItems(Status status, GenericRepository<T, Long> repository) {
         System.out.println("current items : ");
         for (T item : repository.getAll(status)) {
             System.out.println(item.toString());
